@@ -1,0 +1,23 @@
+name: Crypto Atelier
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      FERNET_KEY: ${{ secrets.FERNET_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install cryptography
+
+      - run: |
+          echo "Message secret" > secret.txt
+          python app/fernet_atelier1.py encrypt secret.txt secret.enc
